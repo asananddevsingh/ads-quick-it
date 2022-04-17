@@ -1,6 +1,7 @@
 const STATE_MANAGERS = {
   APOLLO_CLIENT: 'apollo-client',
   REACT_REDUX: 'react-redux',
+  NOT_APPLICABLE: null,
 };
 
 const stateManagerQues = [
@@ -18,6 +19,11 @@ const stateManagerQues = [
         title: 'React-Redux',
         value: STATE_MANAGERS.REACT_REDUX,
         description: 'redux-thunk or redux-saga middleware will be needed.',
+      },
+      {
+        title: 'N/A',
+        value: STATE_MANAGERS.NOT_APPLICABLE,
+        description: 'No App state manager is needed.',
       },
     ],
     initial: 0,

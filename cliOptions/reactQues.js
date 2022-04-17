@@ -7,14 +7,6 @@ const reactQues = [
     active: 'Yes',
     inactive: 'No',
   },
-  {
-    type: 'toggle',
-    name: 'unitTest',
-    message: 'Want to include jest testing framework?',
-    initial: true,
-    active: 'Yes',
-    inactive: 'No',
-  },
 ];
 
 module.exports = {

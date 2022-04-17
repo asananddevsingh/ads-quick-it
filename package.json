@@ -1,17 +1,18 @@
 {
-  "name": "ads-quick-it",
+  "name": "ads-starter-kit",
   "version": "1.0.0",
-  "description": "Anand Dev's Quick Integrated Toolchain.",
+  "description": "Anand Dev's integrated toolchain for application's starter templates",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anand Dev Singh",
   "license": "ISC",
   "bin": {
-    "ads-quick-it": "bin/cli.js"
+    "ads-starter-kit": "bin/cli.js"
   },
   "dependencies": {
-    "chalk": "^5.0.1",
+    "chalk": "4.1.2",
+    "fs-extra": "^10.0.1",
     "prompts": "^2.4.2"
   }
 }
