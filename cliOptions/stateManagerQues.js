@@ -1,4 +1,4 @@
-const STATE_MANAGERS = {
+export const STATE_MANAGERS = {
   APOLLO_CLIENT: 'apollo-client',
   REACT_REDUX: 'react-redux',
   NOT_APPLICABLE: null,
@@ -30,7 +30,4 @@ const stateManagerQues = [
   },
 ];
 
-module.exports = {
-  STATE_MANAGERS,
-  stateManagerQues,
-};
+export default stateManagerQues;

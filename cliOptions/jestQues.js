@@ -9,6 +9,4 @@ const jestQues = [
   },
 ];
 
-module.exports = {
-  jestQues,
-};
+export default jestQues;

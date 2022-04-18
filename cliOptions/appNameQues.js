@@ -12,6 +12,4 @@ const appNameQues = [
   },
 ];
 
-module.exports = {
-  appNameQues,
-};
+export default appNameQues;

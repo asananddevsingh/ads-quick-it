@@ -9,6 +9,4 @@ const reactQues = [
   },
 ];
 
-module.exports = {
-  reactQues,
-};
+export default reactQues;
