@@ -13,6 +13,7 @@ import {
   middlewareQues,
   jestQues,
 } from '../cliOptions/index.js';
+import { copyTemplate } from "../utils/index.js"
 
 (async () => {
   const appResp = await prompts(appNameQues);
@@ -43,7 +44,7 @@ import {
     };
 
     console.log(chalk.cyan.bold('\nYour Chosen Tech Stack ::'), techStack);
-    // copyTemplate(techStack);
+    copyTemplate(techStack);
   }
 })();
 
@@ -53,6 +54,7 @@ import {
 // https://github.com/pongsatt/mycli
 // Template Engine: https://expressjs.com/en/advanced/developing-template-engines.html
 // https://medium.com/ableneo/improve-your-javascript-developer-experience-by-generating-code-d10f7f2e9b6d
+// Plop: https://github.com/malerba118/react-starter-cli
 
 // var options = {
 //   framework: {
