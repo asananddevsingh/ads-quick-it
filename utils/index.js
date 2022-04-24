@@ -1,1 +1,2 @@
-export { default as copyTemplate } from "./copy/copyTemplate.js"
+export * from "./templateUtils.js"
+export * from "./githubUtils.js"
