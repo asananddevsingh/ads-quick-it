@@ -13,7 +13,7 @@ import {
   middlewareQues,
   jestQues,
 } from '../cliOptions';
-import { copyTemplate } from "../utils"
+import { configureTemplate } from "../utils"
 
 (async () => {
   const appResp = await prompts(appNameQues);
@@ -43,8 +43,10 @@ import { copyTemplate } from "../utils"
       ...jestResp,
     };
 
-    console.log(chalk.cyan.bold('\nYour Chosen Tech Stack ::'), techStack);
-    copyTemplate(techStack);
+    console.log(chalk.cyan.bold('\nYour Chosen Stack ::'), techStack);
+    console.log(chalk.green('\nStarted creating application...'));
+
+    configureTemplate(techStack);
   }
 })();
 
@@ -55,19 +57,3 @@ import { copyTemplate } from "../utils"
 // Template Engine: https://expressjs.com/en/advanced/developing-template-engines.html
 // https://medium.com/ableneo/improve-your-javascript-developer-experience-by-generating-code-d10f7f2e9b6d
 // Plop: https://github.com/malerba118/react-starter-cli
-
-// var options = {
-//   framework: {
-//     react: {
-//       withRouter: 'false | <true || false>',
-//       jestTest: 'true | <true || false>',
-//       reactRedux: {
-//         reduxThunk: {},
-//         reeduxSaga: {},
-//       },
-//       apolloClient: {},
-//     },
-//     angular: {},
-//     vue: {},
-//   },
-// };
