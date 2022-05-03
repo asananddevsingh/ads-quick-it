@@ -1,2 +1,2 @@
-export * from "./templateUtils.js"
-export * from "./githubUtils.js"
+export * from "./templateUtils";
+export * from "./githubUtils";

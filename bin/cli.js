@@ -12,8 +12,8 @@ import {
   stateManagerQues,
   middlewareQues,
   jestQues,
-} from '../cliOptions/index.js';
-import { copyTemplate } from "../utils/index.js"
+} from '../cliOptions';
+import { copyTemplate } from "../utils"
 
 (async () => {
   const appResp = await prompts(appNameQues);

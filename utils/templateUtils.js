@@ -1,10 +1,11 @@
-import { FRAMEWORKS, STATE_MANAGERS, MIDDLEWARES } from '../cliOptions/index.js';
+import { FRAMEWORKS, STATE_MANAGERS, MIDDLEWARES } from '../cliOptions';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { runCommand } from './githubUtils.js';
+import { runCommand } from './githubUtils';
+import parse from 'parse-gitignore';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -45,29 +46,75 @@ export const copyTemplate = (techStack) => {
     console.log(chalk.red("NOT SUPPORTED FRAMEWORK"));
   }
 
-  const source = path.resolve(__dirname, `../templates`, templateName);
+  const templateSource = path.resolve(__dirname, `../templates`, templateName);
   const destination = path.resolve(appDirectory, appName);
 
-  fs.copy(source, destination)
-    .then(() => {
-      console.log(chalk.green(`Template cloned! ${chalk.magenta('installing app dependencies.')}`));
+  const gitIgnorePath = path.resolve(templateSource, ".gitignore");
 
-      const installDepsCommand = `cd ${appName} && yarn install`;
-      const depsInstalled = runCommand(installDepsCommand);
+  fs.readFile(gitIgnorePath, { encoding: 'utf-8' }, function (err, gitIgnoreContent) {
+    if (!err) {
+      const gitIgnoreEntries = parse(gitIgnoreContent);
+      const templateContent = fs.readdirSync(templateSource);
+      console.log('templateContent', templateContent);
 
-      if (!depsInstalled) {
-        process.exit(-1);
-      }
+      templateContent.forEach((file) => {
+        const origFilePath = path.join(templateSource, file);
+        const stats = fs.statSync(origFilePath);
+        const ignoreFileIndex = gitIgnoreEntries.findIndex(gitIgn => {
+          var gitIgnRegEx = new RegExp(gitIgn);
+          var fileRegEx = new RegExp(file)
+          return gitIgnRegEx.test(fileRegEx);
+        })
 
-      console.log(chalk.green(`Congratulations! You are ready.`));
-      console.log(`cd ${chalk.cyan(appName)} && run ${chalk.cyan('yarn start')} `);
+        if (ignoreFileIndex === -1) {
+          console.log('templateSource', templateSource);
+          console.log('origFilePath', origFilePath);
 
-    })
-    .catch((err) => {
-      console.log(chalk.redBright('An error occurred while copying the folder.'));
-      console.log(chalk.redBright('Source::', source));
-      console.log(chalk.redBright('Destination::', destination));
+          // templateSource D:\Anand Dev Singh\Toolchains\ads-starter-kit\templates\react-apollo
+          // origFilePath D:\Anand Dev Singh\Toolchains\ads-starter-kit\templates\react-apollo\.gitignore
+          // destination D:\Anand Dev Singh\toolchains\abcd
 
-      throw new Error(err);
-    });
+          const copyDest = path.join(destination, file)
+          console.log('copyDest', copyDest);
+          fs.copy(templateSource, copyDest)
+            .then(() => {
+              console.log(chalk.green(`Copied ${file}.`));
+            })
+            .catch((err) => {
+              console.log(chalk.redBright(`An error occurred while copying the ${file}.`));
+              throw new Error(err);
+            });
+        } else {
+          console.log('ignoring', file);
+        }
+      });
+    } else {
+      console.log("ERROR READING .GITIGNORE FILE::", err);
+    }
+  });
+
+
+
+  // fs.copy(source, destination)
+  //   .then(() => {
+  //     console.log(chalk.green(`Template cloned! ${chalk.magenta('installing app dependencies.')}`));
+
+  //     const installDepsCommand = `cd ${appName} && yarn install`;
+  //     const depsInstalled = runCommand(installDepsCommand);
+
+  //     if (!depsInstalled) {
+  //       process.exit(-1);
+  //     }
+
+  //     console.log(chalk.green(`Congratulations! You are ready.`));
+  //     console.log(`cd ${chalk.cyan(appName)} && run ${chalk.cyan('yarn start')} `);
+
+  //   })
+  //   .catch((err) => {
+  //     console.log(chalk.redBright('An error occurred while copying the folder.'));
+  //     console.log(chalk.redBright('Source::', source));
+  //     console.log(chalk.redBright('Destination::', destination));
+
+  //     throw new Error(err);
+  //   });
 };
