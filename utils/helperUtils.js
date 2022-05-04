@@ -2,7 +2,6 @@ import fs from "fs-extra";
 import path from "path";
 import shell from "shelljs";
 import chalk from "chalk";
-import ejs from "ejs";
 import parse from 'parse-gitignore';
 import paths from "./pathUtils";
 
@@ -86,9 +85,8 @@ export const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
 
     if (stats.isFile()) {
       const fileContent = fs.readFileSync(originFilePath, "utf8");
-      const fileData = ejs.render(fileContent, { appName });
       const writeFilePath = path.join(paths.appDirectory, appName, file);
-      fs.writeFileSync(writeFilePath, fileData, "utf8");
+      fs.writeFileSync(writeFilePath, fileContent, "utf8");
       console.log(chalk.magenta(`Copied file:`), chalk.green(file));
     } else if (stats.isDirectory()) {
       const writeDirPath = path.join(paths.appDirectory, appName, file);
