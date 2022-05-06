@@ -38,8 +38,11 @@ export const configureTemplate = (techStack) => {
     console.log(chalk.red("NOT SUPPORTED FRAMEWORK"));
   }
 
-  createApp(templateName, appName);
-
+  if (appName) {
+    createApp(templateName, appName);
+  } else {
+    console.log(chalk.red(`\n[NO_APP_NAME]:: Application name not found, please retry.`));
+  }
 };
 
 const createApp = (templateName, appName) => {
