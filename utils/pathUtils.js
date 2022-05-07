@@ -1,27 +1,29 @@
 const path = require('path');
 
-const appDirectory = process.cwd();
-
 const getTemplatePath = (templateName) => {
-  return path.join(appDirectory, `templates`, templateName);
+  return path.resolve(__dirname, `../templates`, templateName);
 };
 
 const getAppTargetPath = (appName) => {
-  return path.join(appDirectory, appName);
+  return path.resolve(process.cwd(), appName);
 };
 
 const getGitIgnorePath = (templateSourcePath) => {
-  return path.join(templateSourcePath, '.gitignore');
+  return path.resolve(templateSourcePath, '.gitignore');
 };
 
 const getPackageJsonPath = (templateSourcePath) => {
-  return path.join(templateSourcePath, 'package.json');
+  return path.resolve(templateSourcePath, 'package.json');
+};
+
+const getWriteFileOrDirPath = (appName, file) => {
+  return path.resolve(process.cwd(), appName, file);
 };
 
 module.exports = {
-  appDirectory,
   getTemplatePath,
   getAppTargetPath,
   getGitIgnorePath,
   getPackageJsonPath,
+  getWriteFileOrDirPath,
 };

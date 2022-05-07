@@ -84,23 +84,26 @@ const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
   filesToCreate.forEach((file) => {
     if (isInGitIgnore(gitIgnoreEntries, file)) {
       return;
-    }
+    } else {
+      const originFilePath = path.resolve(templatePath, file);
+      const writeFileOfDirPath = paths.getWriteFileOrDirPath(appName, file);
+      // get stats about the current file.
+      const stats = fs.statSync(originFilePath);
 
-    const originFilePath = path.join(templatePath, file);
-    // get stats about the current file.
-    const stats = fs.statSync(originFilePath);
-
-    if (stats.isFile()) {
-      const fileContent = fs.readFileSync(originFilePath, 'utf8');
-      const writeFilePath = path.join(paths.appDirectory, appName, file);
-      fs.writeFileSync(writeFilePath, fileContent, 'utf8');
-      console.log(chalk.magenta(`Copied file:`), chalk.green(file));
-    } else if (stats.isDirectory()) {
-      const writeDirPath = path.join(paths.appDirectory, appName, file);
-      fs.mkdirSync(writeDirPath);
-      console.log(chalk.blue(`Created folder:`), chalk.green(file));
-      // recursive call
-      writeAppContent(path.join(templatePath, file), path.join(appName, file), gitIgnoreEntries);
+      if (stats.isFile()) {
+        const fileContent = fs.readFileSync(originFilePath, 'utf8');
+        fs.writeFileSync(writeFileOfDirPath, fileContent, 'utf8');
+        console.log(chalk.magenta(`Copied file:`), chalk.green(file));
+      } else if (stats.isDirectory()) {
+        fs.mkdirSync(writeFileOfDirPath);
+        console.log(chalk.blue(`Created folder:`), chalk.green(file));
+        // recursive call
+        writeAppContent(
+          path.resolve(templatePath, file),
+          path.resolve(appName, file),
+          gitIgnoreEntries
+        );
+      }
     }
   });
 };
