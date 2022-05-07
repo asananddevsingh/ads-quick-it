@@ -86,6 +86,11 @@ const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
       return;
     } else {
       const originFilePath = path.resolve(templatePath, file);
+      // This logic is used becuase npm doesn't publish the .gitignore file and here we are dependent on this file.
+      if (file === 'gitignore') {
+        file = '.gitignore';
+      }
+
       const writeFileOfDirPath = paths.getWriteFileOrDirPath(appName, file);
       // get stats about the current file.
       const stats = fs.statSync(originFilePath);

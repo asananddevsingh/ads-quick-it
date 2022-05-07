@@ -9,7 +9,7 @@ const getAppTargetPath = (appName) => {
 };
 
 const getGitIgnorePath = (templateSourcePath) => {
-  return path.resolve(templateSourcePath, '.gitignore');
+  return path.resolve(templateSourcePath, 'gitignore');
 };
 
 const getPackageJsonPath = (templateSourcePath) => {

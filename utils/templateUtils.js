@@ -63,7 +63,8 @@ const createApp = (templateName, appName) => {
   const gitIgnorePath = paths.getGitIgnorePath(templatePath);
   const gitIgnoreEntries = getGitIgnoreEntries(gitIgnorePath);
 
-  writeAppContent(templatePath, appName, gitIgnoreEntries);
+  // Adding .gitignore to the list as this file is not getting published to npm.
+  writeAppContent(templatePath, appName, [...gitIgnoreEntries, '.gitignore']);
 
   if (!postProcess(options)) {
     return;
