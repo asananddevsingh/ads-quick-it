@@ -1,29 +1,27 @@
-import path from 'path';
+const path = require('path');
 
-export const appDirectory = process.cwd()
+const appDirectory = process.cwd();
 
-export const getTemplatePath = (templateName) => {
-  return path.join(appDirectory, `templates`, templateName)
+const getTemplatePath = (templateName) => {
+  return path.join(appDirectory, `templates`, templateName);
 };
 
-export const getAppTargetPath = (appName) => {
-  return path.join(appDirectory, appName)
+const getAppTargetPath = (appName) => {
+  return path.join(appDirectory, appName);
 };
 
-export const getGitIgnorePath = (templateSourcePath) => {
-  return path.join(templateSourcePath, ".gitignore");
+const getGitIgnorePath = (templateSourcePath) => {
+  return path.join(templateSourcePath, '.gitignore');
 };
 
-export const getPackageJsonPath = (templateSourcePath) => {
-  return path.join(templateSourcePath, "package.json");
+const getPackageJsonPath = (templateSourcePath) => {
+  return path.join(templateSourcePath, 'package.json');
 };
 
-const paths = {
+module.exports = {
   appDirectory,
   getTemplatePath,
   getAppTargetPath,
   getGitIgnorePath,
   getPackageJsonPath,
-}
-
-export default paths;
+};

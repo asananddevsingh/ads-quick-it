@@ -9,4 +9,6 @@ const jestQues = [
   },
 ];
 
-export default jestQues;
+module.exports = {
+  jestQues,
+};

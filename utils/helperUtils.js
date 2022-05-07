@@ -1,16 +1,20 @@
-import fs from "fs-extra";
-import path from "path";
-import shell from "shelljs";
-import chalk from "chalk";
-import parse from 'parse-gitignore';
-import paths from "./pathUtils";
+const fs = require('fs-extra');
+const path = require('path');
+const shell = require('shelljs');
+const chalk = require('chalk');
+const parse = require('parse-gitignore');
+const paths = require('./pathUtils');
 
-export const showSuccessMessage = (options) => {
+const showSuccessMessage = (options) => {
   console.log(chalk.green(`\nCongratulations! Your application is ready.\n`));
-  console.log(`run commands ${chalk.cyan(`cd ${options.appName}`)} && ${chalk.cyan(`${getPackageManager()} start`)}`);
-}
+  console.log(
+    `run commands ${chalk.cyan(`cd ${options.appName}`)} && ${chalk.cyan(
+      `${getPackageManager()} start`
+    )}`
+  );
+};
 
-export const makeAppDirectory = (appTargetPath) => {
+const makeAppDirectory = (appTargetPath) => {
   if (fs.existsSync(appTargetPath)) {
     console.log(chalk.red(`Folder ${appTargetPath} exists. Delete existing or use another name.`));
     return false;
@@ -18,35 +22,38 @@ export const makeAppDirectory = (appTargetPath) => {
 
   fs.mkdirSync(appTargetPath);
   return true;
-}
+};
 
-export const postProcess = (options) => {
+const postProcess = (options) => {
   if (isPackageJsonExists(options)) {
     return postProcessNode(options);
   }
   return true;
-}
+};
 
-export const isPackageJsonExists = (options) => {
+const isPackageJsonExists = (options) => {
   const packgaeJsonPath = paths.getPackageJsonPath(options.templatePath);
   return fs.existsSync(packgaeJsonPath);
-}
+};
 
-export const getPackageManager = () => {
-  if (shell.which("yarn")) {
-    return "yarn";
-  } else if (shell.which("npm")) {
-    return "npm";
+const getPackageManager = () => {
+  if (shell.which('yarn')) {
+    return 'yarn';
+  } else if (shell.which('npm')) {
+    return 'npm';
   }
   return;
-}
+};
 
-export const postProcessNode = (options) => {
+const postProcessNode = (options) => {
   shell.cd(options.tartgetPath);
 
   const cmd = getPackageManager();
   if (cmd) {
-    console.log(chalk.blue.bold(`\nHang Tight`), chalk.green("Installing application dependencies...\n"));
+    console.log(
+      chalk.blue.bold(`\nHang Tight`),
+      chalk.green('Installing application dependencies...\n')
+    );
     const result = shell.exec(`${cmd} install`);
     if (result.code !== 0) {
       return false;
@@ -56,25 +63,25 @@ export const postProcessNode = (options) => {
   }
 
   return true;
-}
+};
 
-export const getGitIgnoreEntries = (gitIgnorePath) => {
-  const gitIgnoreContent = fs.readFileSync(gitIgnorePath, { encoding: 'utf-8' })
+const getGitIgnoreEntries = (gitIgnorePath) => {
+  const gitIgnoreContent = fs.readFileSync(gitIgnorePath, { encoding: 'utf-8' });
   return parse(gitIgnoreContent);
-}
+};
 
 const isInGitIgnore = (gitIgnoreEntries, file) => {
-  const ignoreIndex = gitIgnoreEntries.findIndex(gitIgn => {
+  const ignoreIndex = gitIgnoreEntries.findIndex((gitIgn) => {
     var gitIgnRegEx = new RegExp(gitIgn);
-    var fileRegEx = new RegExp(file)
+    var fileRegEx = new RegExp(file);
     return gitIgnRegEx.test(fileRegEx);
-  })
+  });
   return ignoreIndex !== -1;
-}
+};
 
-export const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
+const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
   const filesToCreate = fs.readdirSync(templatePath);
-  filesToCreate.forEach(file => {
+  filesToCreate.forEach((file) => {
     if (isInGitIgnore(gitIgnoreEntries, file)) {
       return;
     }
@@ -84,9 +91,9 @@ export const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
     const stats = fs.statSync(originFilePath);
 
     if (stats.isFile()) {
-      const fileContent = fs.readFileSync(originFilePath, "utf8");
+      const fileContent = fs.readFileSync(originFilePath, 'utf8');
       const writeFilePath = path.join(paths.appDirectory, appName, file);
-      fs.writeFileSync(writeFilePath, fileContent, "utf8");
+      fs.writeFileSync(writeFilePath, fileContent, 'utf8');
       console.log(chalk.magenta(`Copied file:`), chalk.green(file));
     } else if (stats.isDirectory()) {
       const writeDirPath = path.join(paths.appDirectory, appName, file);
@@ -96,4 +103,15 @@ export const writeAppContent = (templatePath, appName, gitIgnoreEntries) => {
       writeAppContent(path.join(templatePath, file), path.join(appName, file), gitIgnoreEntries);
     }
   });
-}
+};
+
+module.exports = {
+  showSuccessMessage,
+  makeAppDirectory,
+  postProcess,
+  isPackageJsonExists,
+  getPackageManager,
+  postProcessNode,
+  getGitIgnoreEntries,
+  writeAppContent,
+};

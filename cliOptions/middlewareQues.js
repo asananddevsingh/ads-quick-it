@@ -1,4 +1,4 @@
-export const MIDDLEWARES = {
+const MIDDLEWARES = {
   REDUX_THUNK: 'redux-thunk',
   REDUX_SAGA: 'redux-saga',
 };
@@ -24,4 +24,7 @@ const middlewareQues = [
   },
 ];
 
-export default middlewareQues;
+module.exports = {
+  MIDDLEWARES,
+  middlewareQues,
+};

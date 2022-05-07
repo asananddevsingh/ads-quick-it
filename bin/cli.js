@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
-import chalk from 'chalk';
-import prompts from 'prompts';
-import {
+const chalk = require('chalk');
+const prompts = require('prompts');
+const {
   appNameQues,
   FRAMEWORKS,
   frameworkQues,
@@ -12,8 +12,8 @@ import {
   stateManagerQues,
   middlewareQues,
   jestQues,
-} from '../cliOptions';
-import { configureTemplate } from "../utils"
+} = require('../cliOptions');
+const { configureTemplate } = require('../utils');
 
 (async () => {
   const appResp = await prompts(appNameQues);

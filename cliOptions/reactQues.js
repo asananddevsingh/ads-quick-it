@@ -9,4 +9,6 @@ const reactQues = [
   },
 ];
 
-export default reactQues;
+module.exports = {
+  reactQues,
+};

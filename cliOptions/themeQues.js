@@ -1,4 +1,4 @@
-export const THEMES = {
+const THEMES = {
   BOOTSTRAP: 'bootstrap',
   MATERIAL_UI: 'mui',
 };
@@ -25,4 +25,7 @@ const themeQues = [
   },
 ];
 
-export default themeQues;
+module.exports = {
+  THEMES,
+  themeQues,
+};

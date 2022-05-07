@@ -1,41 +1,47 @@
-import { FRAMEWORKS, STATE_MANAGERS, MIDDLEWARES } from '../cliOptions';
-import chalk from 'chalk';
-import { makeAppDirectory, writeAppContent, postProcess, showSuccessMessage, getGitIgnoreEntries } from './helperUtils';
-import paths from './pathUtils';
+const { FRAMEWORKS, STATE_MANAGERS, MIDDLEWARES } = require('../cliOptions');
+const chalk = require('chalk');
+const {
+  makeAppDirectory,
+  writeAppContent,
+  postProcess,
+  showSuccessMessage,
+  getGitIgnoreEntries,
+} = require('./helperUtils');
+const paths = require('./pathUtils');
 
-export const configureTemplate = (techStack) => {
+const configureTemplate = (techStack) => {
   const { appName, framework, stateManager, middleware } = techStack;
-  let templateName = "react";
+  let templateName = 'react';
   if (framework === FRAMEWORKS.REACT) {
     if (stateManager) {
       switch (stateManager) {
         case STATE_MANAGERS.APOLLO_CLIENT:
-          templateName += "-apollo"
+          templateName += '-apollo';
           break;
         case STATE_MANAGERS.REACT_REDUX:
           if (middleware) {
             switch (middleware) {
               case MIDDLEWARES.REDUX_THUNK:
-                templateName += "-redux-thunk";
+                templateName += '-redux-thunk';
                 break;
               case MIDDLEWARES.REDUX_SAGA:
-                templateName += "-redux-saga";
+                templateName += '-redux-saga';
                 break;
               default:
                 break;
             }
           } else {
-            console.log(chalk.yellow("CREATING APPLICATION WITHOUT MIDDLEWARE"));
+            console.log(chalk.yellow('CREATING APPLICATION WITHOUT MIDDLEWARE'));
           }
           break;
         default:
           break;
       }
     } else {
-      console.log(chalk.red("WITHOUT STATE MANAGER"));
+      console.log(chalk.red('WITHOUT STATE MANAGER'));
     }
   } else {
-    console.log(chalk.red("NOT SUPPORTED FRAMEWORK"));
+    console.log(chalk.red('NOT SUPPORTED FRAMEWORK'));
   }
 
   if (appName) {
@@ -48,13 +54,13 @@ export const configureTemplate = (techStack) => {
 const createApp = (templateName, appName) => {
   const templatePath = paths.getTemplatePath(templateName);
   const tartgetPath = paths.getAppTargetPath(appName);
-  const options = { appName, templateName, templatePath, tartgetPath, }
+  const options = { appName, templateName, templatePath, tartgetPath };
 
   if (!makeAppDirectory(tartgetPath)) {
     return;
   }
 
-  const gitIgnorePath = paths.getGitIgnorePath(templatePath)
+  const gitIgnorePath = paths.getGitIgnorePath(templatePath);
   const gitIgnoreEntries = getGitIgnoreEntries(gitIgnorePath);
 
   writeAppContent(templatePath, appName, gitIgnoreEntries);
@@ -64,4 +70,8 @@ const createApp = (templateName, appName) => {
   }
 
   showSuccessMessage(options);
-}
+};
+
+module.exports = {
+  configureTemplate,
+};

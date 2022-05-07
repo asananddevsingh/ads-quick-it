@@ -1,22 +1,24 @@
 {
   "name": "ads-starter-kit",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Anand Dev's integrated toolchain for application's starter templates",
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node bin/cli"
+    "start": "node --experimental-modules --es-module-specifier-resolution=node bin/cli.js"
   },
   "author": "Anand Dev Singh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asananddevsingh/ads-starter-kit"
+  },
   "license": "ISC",
   "bin": {
     "ads-starter-kit": "bin/cli.js"
   },
   "dependencies": {
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.2",
     "fs-extra": "^10.0.1",
     "parse-gitignore": "^1.0.1",
     "prompts": "^2.4.2",
     "shelljs": "^0.8.5"
-  },
-  "type": "module",
-  "devDependencies": {}
+  }
 }

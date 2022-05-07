@@ -1,4 +1,4 @@
-export const FRAMEWORKS = {
+const FRAMEWORKS = {
   ANGULAR: 'angular',
   REACT: 'react-js',
   VUE: 'vue-js',
@@ -31,4 +31,7 @@ const frameworkQues = [
   },
 ];
 
-export default frameworkQues;
+module.exports = {
+  FRAMEWORKS,
+  frameworkQues,
+}

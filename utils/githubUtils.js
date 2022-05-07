@@ -1,6 +1,6 @@
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
-export const runCommand = (command) => {
+const runCommand = (command) => {
   try {
     execSync(`${command}`, { stdio: 'inherit' });
   } catch (e) {
@@ -8,4 +8,8 @@ export const runCommand = (command) => {
     return false;
   }
   return true;
+};
+
+module.exports = {
+  runCommand,
 };
