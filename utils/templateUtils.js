@@ -40,6 +40,9 @@ const configureTemplate = (techStack) => {
     } else {
       console.log(chalk.red('WITHOUT STATE MANAGER'));
     }
+  }
+  if (framework === FRAMEWORKS.ANGULAR) {
+    templateName = 'angular';
   } else {
     console.log(chalk.red('NOT SUPPORTED FRAMEWORK'));
   }

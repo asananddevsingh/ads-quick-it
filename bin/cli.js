@@ -19,6 +19,10 @@ const { configureTemplate } = require('../utils');
   const appResp = await prompts(appNameQues);
   const frameworkResp = await prompts(frameworkQues);
   const { framework } = frameworkResp;
+  let techStack = {
+    ...appResp,
+    ...frameworkResp,
+  };
 
   if (framework === FRAMEWORKS.REACT) {
     const themeResp = await prompts(themeQues);
@@ -33,9 +37,8 @@ const { configureTemplate } = require('../utils');
 
     const jestResp = await prompts(jestQues);
 
-    const techStack = {
-      ...appResp,
-      ...frameworkResp,
+    techStack = {
+      ...techStack,
       ...themeResp,
       ...reactResp,
       ...stateManagerResp,
@@ -46,6 +49,8 @@ const { configureTemplate } = require('../utils');
     console.log(chalk.cyan.bold('\nYour Chosen Stack ::'), techStack);
     console.log(chalk.green('\nStarted creating application...'));
 
+    configureTemplate(techStack);
+  } else if (framework === FRAMEWORKS.ANGULAR) {
     configureTemplate(techStack);
   }
 })();

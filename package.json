@@ -1,6 +1,6 @@
 {
   "name": "ads-starter-kit",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Anand Dev's integrated toolchain for application's starter templates",
   "scripts": {
     "start": "node --experimental-modules --es-module-specifier-resolution=node bin/cli.js"
